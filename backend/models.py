@@ -1,4 +1,4 @@
-from backend import db
+from backend import db, ma
 
 class Building(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -7,11 +7,13 @@ class Building(db.Model):
     
 
 
+
 class Room(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
     building_id = db.Column(db.Integer, db.ForeignKey('building.id'))
     datas = db.relationship('TelemetricData', backref='room', lazy=True)
+
 
 class TelemetricData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -22,3 +24,16 @@ class TelemetricData(db.Model):
     date = db.Column(db.DateTime())
     room_id=db.Column(db.Integer, db.ForeignKey('room.id'))
     
+class TelemetricDataSchema(ma.ModelSchema):
+    class Meta:
+        model = TelemetricData
+
+
+
+class BuildingSchema(ma.ModelSchema):
+    class Meta:
+        model = Building
+
+class RoomSchema(ma.ModelSchema):
+    class Meta:
+        model = Room

@@ -1,4 +1,5 @@
-from backend import app
+from backend import app,db
+from backend.models import Building, BuildingSchema, Room, RoomSchema, TelemetricData, TelemetricDataSchema
 from flask import jsonify
 
 
@@ -36,11 +37,15 @@ donnees = [
                 'img':''
             }
         ]
+room_schema = RoomSchema()
+rooms_schema = RoomSchema(many=True)
+
 
 # sanity check route
-@app.route('/ping', methods=['GET'])
-def ping_pong():
-    return jsonify('pong!')
+@app.route('/', methods=['GET'])
+def home():
+    rooms = Room.query.all()
+    return rooms_schema.jsonify(rooms)
 
 @app.route('/datas', methods=['GET'])
 def get_datas():

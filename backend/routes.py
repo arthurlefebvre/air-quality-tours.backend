@@ -56,15 +56,7 @@ def get_datas():
 
 @app.route('/salle/<id>', methods=['GET'])
 def get_data(id):
-    for data in donnees:
-        if data.get('id') == id:
-            return jsonify({
-                'status': 'success',
-                'data': data
-            })
-    return jsonify({
-        'status': 'error',
-        'data': 'Not found'
-    })
-
+    room = Room.query.get(id)
+    #return room_schema.jsonify(room)
+    return jsonify(room_schema.dump(room).data)
 

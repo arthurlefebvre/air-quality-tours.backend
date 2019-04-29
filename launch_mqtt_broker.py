@@ -49,6 +49,7 @@ def on_message(client, userdata, message):
     print("Reception message MQTT...")
     [projet, batiment, salle] = message.topic.split('/')
     data = message.payload
+    print(data)
     date = datetime.datetime.now()
     [temperature, pressure, humidity, IAQ] = data.split('/')
     print(temperature)
